@@ -22,18 +22,6 @@ interface LintResult extends tslint.LintResult {
   fileNames: string[];
 }
 
-async function _loadTslint() {
-  let tslint;
-  try {
-    tslint = await import('tslint');
-  } catch {
-    throw new Error('Unable to find TSLint. Ensure TSLint is installed.');
-  }
-
-  return tslint;
-}
-
-
 async function _run(
   options: TslintBuilderOptions,
   context: BuilderContext,
@@ -55,7 +43,7 @@ async function _run(
     throw new Error('A "project" must be specified to enable type checking.');
   }
 
-  const projectTslint = await _loadTslint();
+  const projectTslint = await import('tslint');
   const tslintConfigPath = options.tslintConfig
     ? path.resolve(systemRoot, options.tslintConfig)
     : null;
